@@ -1,0 +1,33 @@
+services:
+  plex:
+    image: plexinc/pms-docker:1.42.2.10156-f737b826c
+    container_name: plex-vuln
+    networks:
+      - labnet
+    environment:
+      - TZ=UTC
+      - PLEX_CLAIM=
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ./plex-config:/config
+      - ./media:/data
+    ports:
+      - "32400:32400"
+    restart: "no"
+
+  op:
+    build:
+      context: .
+      dockerfile: Dockerfile.op          # or op/Dockerfile.op if you keep it nested
+    container_name: op-server
+    networks:
+      - labnet
+    volumes:
+      - ./op:/usr/share/nginx/html:ro
+    restart: "no"
+
+networks:
+  labnet:
+    driver: bridge
+    # internal: true

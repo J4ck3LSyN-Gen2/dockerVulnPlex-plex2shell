@@ -1,0 +1,7 @@
+FROM nginx:alpine
+
+# Simple static file server for the attack artifacts
+# Everything in /usr/share/nginx/html is served at http://op/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
